@@ -1,6 +1,6 @@
 from settings import *
 import pygame as pg
-import math
+import math as m
 
 class Player:
     def __init__(self, game):
@@ -8,10 +8,9 @@ class Player:
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
 
-
     def movement(self):
-        sin_a = math.sin(self.angle)
-        cos_a = math.cos(self.angle)
+        sin_a = m.sin(self.angle)
+        cos_a = m.cos(self.angle)
         dx, dy = 0, 0
         speed = PLAYER_SPEED * self.game.delta_time
         speed_sin = speed * sin_a
@@ -39,7 +38,7 @@ class Player:
             self.angle -= PLAYER_ROT_SPEED
         if keys[pg.K_RIGHT]:
             self.angle += PLAYER_ROT_SPEED
-        self.angle %= math.tau
+        self.angle %= m.tau
 
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map
@@ -51,14 +50,16 @@ class Player:
             self.y += dy
 
     def draw(self):
+        #Dibuja la dirección del movimiento del jugador
         pg.draw.line(
             self.game.screen,
             'yellow',
             (self.x * 100, self.y * 100),
-            (self.x * 100 + WIDTH * math.cos(self.angle),
-            self.y * 100 + WIDTH * math.sin(self.angle)),
+            (self.x * 100 + WIDTH * m.cos(self.angle),
+            self.y * 100 + WIDTH * m.sin(self.angle)),
             2
         )
+        #Dibuja el jugador como un círculo
         pg.draw.circle(
             self.game.screen, 
             'green',
